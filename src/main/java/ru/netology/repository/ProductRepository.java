@@ -1,5 +1,6 @@
 package ru.netology.repository;
 
+import ru.netology.domain.AlreadyExistsException;
 import ru.netology.domain.NotFoundException;
 import ru.netology.domain.Product;
 
@@ -11,6 +12,10 @@ public class ProductRepository {
     }
 
     public void add(Product product) {
+        if (findById(product.getId()) != null) {
+            throw new AlreadyExistsException("Id " + product.getId() + " already exists.");
+        }
+
         Product[] tmp = new Product[products.length + 1];
         for (int i = 0; i < products.length; i++) {
             tmp[i] = products[i];
